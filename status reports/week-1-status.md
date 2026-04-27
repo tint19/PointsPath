@@ -21,7 +21,9 @@
 - Implement basic API endpoint structure
 
 ## Hours Worked
-- Approximately [7] hours
+- Approximately [8.5] hours
   - Repository setup: 1 hrs
   - Documentation: 4 hrs
   - Research: 2 hrs
+  - Scraper validation: 0.5 hrs
+  - Environment setup: 1 hr

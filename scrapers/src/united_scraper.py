@@ -8,7 +8,7 @@ import time
 
 class UnitedScraper:
     def __init__(self):
-        self.base_url = "https://www.united.com"
+        self.base_url = "https://www.united.com/en/us"
     
     def search_awards(self, origin: str, destination: str, date: str):
         """
@@ -22,39 +22,40 @@ class UnitedScraper:
         Returns:
             dict: Award availability data
         """
-        print(f"Searching {origin} → {destination} on {date}")
+        print(f"Testing scraper with {origin} → {destination} on {date}")
         
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=False)  # Set to True for production
-            page = browser.new_page()
-            
             try:
-                # Navigate to United homepage
-                page.goto(self.base_url)
-                page.wait_for_load_state('networkidle')
+                print("Launching browser...")
+                browser = p.chromium.launch(headless=False)
+                page = browser.new_page()
                 
-                # TODO: Implement actual search logic
-                # This is a placeholder for Week 1 validation
+                print(f"Navigating to {self.base_url}...")
+                page.goto(self.base_url, wait_until='domcontentloaded', timeout=60000)
                 
-                print("Page loaded successfully - scraper prototype works!")
+                print("Page loaded successfully!")
+                print(f"Page title: {page.title()}")
                 
-                # Return mock data for now
+                # Keep browser open for 2 seconds so you can see it
+                time.sleep(2)
+                
+                browser.close()
+                
+                # Return mock data
                 return {
                     "success": True,
                     "origin": origin,
                     "destination": destination,
                     "date": date,
-                    "flights": []
+                    "message": "Scraper works! Ready to implement United.com logic."
                 }
                 
             except Exception as e:
-                print(f"Error during scraping: {e}")
+                print(f"Error: {e}")
                 return {"success": False, "error": str(e)}
-            
-            finally:
-                browser.close()
 
 if __name__ == "__main__":
     scraper = UnitedScraper()
     result = scraper.search_awards("SFO", "LAX", "2026-02-15")
+    print("\n=== RESULT ===")
     print(result)
